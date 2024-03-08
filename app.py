@@ -26,7 +26,7 @@ def get_winner():
                 today_date = datetime.now().strftime("%Y-%m-%d")
                 filename = f"{today_date}_votes.json"
                 file_path = os.path.join("uploads", filename) 
-                votesFile.save(file_path)
+                votesFile.save(file_path) 
                 with open(file_path) as f:
                     votes = json.load(f)
                     def match_pattern(choices):

@@ -8,8 +8,8 @@
 
 <form action="/" method="post" enctype="multipart/form-data">
     <div class="mb-3">
-        <label for="result" class="form-label">Today Result of JPL <em style="font-size: 0.8rem;" class="mx-5">Format:  Karachi Lions, Lahore Falcons, Karachi Lions</em></label>
-        <textarea required class="form-control" name="result" id="result" rows="3"></textarea>
+        <label for="result" class="form-label">Today Result of JPL <em style="font-size: 0.8rem;" class="mx-5">Format:  Game1Winner, Game2Winner, ...</em></label>
+        <textarea required class="form-control" name="result" id="result" rows="3">Karachi Lions, Lahore Falcons, Karachi Lions, Lahore Falcons, Karachi Lions, Lahore Falcons</textarea>
     </div>
     <div class="mb-3">
         <label for="votesFile" class="form-label">Votes File in Json</label>
@@ -20,8 +20,8 @@
     <button id="downloadBtn" hidden class="btn btn-success">Download Result</button>
 
 <script>
-    function download(filename) {
-        window.location.href = "/download-result/"+filename;
+    function download(filename){
+            window.location.href = "/download-result/"+filename;
     }
 
     $(document).ready(function() {  
