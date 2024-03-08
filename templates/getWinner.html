@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block title %}Get Winner{% endblock %}
+
+{% block content %}
+
+<h4>Get Winner of Yesterday's JPL Contest on ARYZAP</h4>
+
+<form action="/" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="result" class="form-label">Today Result of JPL <em style="font-size: 0.8rem;" class="mx-5">Format:  Karachi Lions, Lahore Falcons, Karachi Lions</em></label>
+        <textarea required class="form-control" name="result" id="result" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="votesFile" class="form-label">Votes File in Json</label>
+        <input required type="file" class="form-control" name="votesFile" id="votesFile"></input>
+    </div>
+    <button id="submitBtn" type="submit" class="btn btn-danger">Process Winners List</button>
+</form>
+    <button id="downloadBtn" hidden class="btn btn-success">Download Result</button>
+
+<script>
+    function download(filename) {
+        window.location.href = "/download-result/"+filename;
+    }
+
+    $(document).ready(function() {  
+        $("form").submit(function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Processing...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onOpen: () => {
+                Swal.showLoading();
+                }
+            });
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false, 
+                success: function(response) {
+                    swal.close()              
+                    if (response.endsWith(".csv")) {                     
+                        document.getElementById("submitBtn").setAttribute("hidden",true);;
+                        document.getElementById("downloadBtn").removeAttribute("hidden");; 
+                        document.getElementById("downloadBtn").onclick = function() {
+                            filename = response
+                            download(response);
+                        };
+                    } else {
+                        Swal.fire({
+                            title: "Oops!",
+                            text: response,
+                            icon: "error"
+                        });
+
+                    }
+                },
+                error: function(xhr, status, error) {
+                    swal.close()
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
